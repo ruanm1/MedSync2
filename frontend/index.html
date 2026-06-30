@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSync</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+  <script>
+    // API centralizada — aponta sempre pro mesmo servidor que serve o frontend
+const API = "http://localhost:3000";
+    const api = {
+      // MÉDICOS
+      async getMedicos() {
+        const res = await fetch(API + "/medicos");
+        return res.json();
+      },
+      async salvarMedico(dados) {
+        const res = await fetch(API + "/medicos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async editarMedico(id, dados) {
+        const res = await fetch(API + "/medicos/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async deletarMedico(id) {
+        const res = await fetch(API + "/medicos/" + id, { method: "DELETE" });
+        return res.json();
+      },
+
+      // PACIENTES
+      async getPacientes() {
+        const res = await fetch(API + "/pacientes");
+        return res.json();
+      },
+      async salvarPaciente(dados) {
+        const res = await fetch(API + "/pacientes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async editarPaciente(id, dados) {
+        const res = await fetch(API + "/pacientes/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async deletarPaciente(id) {
+        const res = await fetch(API + "/pacientes/" + id, { method: "DELETE" });
+        return res.json();
+      },
+
+      // CONSULTAS
+      async getConsultas() {
+        const res = await fetch(API + "/consultas");
+        return res.json();
+      },
+      async salvarConsulta(dados) {
+        const res = await fetch(API + "/consultas", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async editarConsulta(id, dados) {
+        const res = await fetch(API + "/consultas/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async deletarConsulta(id) {
+        const res = await fetch(API + "/consultas/" + id, { method: "DELETE" });
+        return res.json();
+      },
+
+      // PRONTUÁRIOS
+      async getProntuarios() {
+        const res = await fetch(API + "/prontuarios");
+        return res.json();
+      },
+      async salvarProntuario(dados) {
+        const res = await fetch(API + "/prontuarios", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async editarProntuario(id, dados) {
+        const res = await fetch(API + "/prontuarios/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+        return res.json();
+      },
+      async deletarProntuario(id) {
+        const res = await fetch(API + "/prontuarios/" + id, { method: "DELETE" });
+        return res.json();
+      },
+
+      // IA
+      async perguntarIA(pergunta) {
+        const res = await fetch(API + "/ia", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pergunta })
+        });
+        return res.json();
+      }
+    };
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="script.js" type="text/babel"></script>
+</body>
+</html>
