@@ -86,10 +86,23 @@ const API = "http://localhost:3000";
         });
         return res.json();
       },
-      async deletarConsulta(id) {
-        const res = await fetch(API + "/consultas/" + id, { method: "DELETE" });
-        return res.json();
-      },
+      async cancelarConsulta(id) {
+
+    return fetch(API + "/consultas/" + id, {
+
+        method: "PUT",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            status: "Cancelada"
+        })
+
+    });
+
+},
 
       // PRONTUÁRIOS
       async getProntuarios() {

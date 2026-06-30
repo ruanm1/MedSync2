@@ -213,8 +213,7 @@ function AgendarConsulta({
       return;
     }
 
-    const hoje = new Date().toISOString().split("T")[0];
-
+const data = c.data.substring(0,10).split("-").reverse().join("/");
     if (form.data < hoje) {
       setToast("Selecione uma data válida.");
       return;
@@ -855,8 +854,7 @@ function DashboardPaciente({ consultas }) {
 
                 <small>
 
-                  {new Date(c.data).toLocaleDateString("pt-BR")} às {c.horario}
-
+{new Date(c.data).toLocaleDateString("pt-BR")} às {c.horario}
                 </small>
 
                 <br/>
@@ -901,7 +899,7 @@ useEffect(() => {
     carregarPacientes();
 
 }, []);
-
+    
 async function carregarPacientes() {
 
     const dados = await api.getPacientes();
@@ -1065,6 +1063,7 @@ async function carregarDados() {
     setConsultas(listaConsultas);
 
 }
+
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const agendar = async () => {
@@ -1188,9 +1187,28 @@ value={m.nome}
           <div className="consulta" key={c.id}>
             <div className="consulta-info">
               <strong>{c.horario} — {c.paciente}</strong>
-              <p>{c.medico} · {c.data ? new Date(c.data + 'T00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}</p>
+              <p>{c.data ? new Date(c.data).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+}) : ''}</p>
             </div>
             <span className={`status ${statusClass(c.status)}`}>{c.status}</span>
+
+            <button
+  className="btn-danger btn-sm"
+  onClick={async () => {
+
+    await api.cancelarConsulta(c.id);
+
+    await carregarDados();
+
+    setToast("Consulta cancelada.");
+
+  }}
+>
+  Cancelar
+</button>
           </div>
         ))}
       </div>
