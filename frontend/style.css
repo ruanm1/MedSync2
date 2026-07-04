@@ -308,33 +308,20 @@ body {
 }
 
 /* ── Content ── */
-.content {
-  flex: 1;
-  padding: 36px 40px;
-  overflow-x: hidden;
-  animation: fadeIn 0.25s ease;
-}
+.content{
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(8px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
+    flex:1;
 
-.page-header {
-  margin-bottom: 28px;
-}
+    padding:36px 40px;
 
-.page-header h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.4px;
-}
+    overflow-x:hidden;
 
-.page-header p {
-  color: var(--text-muted);
-  font-size: 0.875rem;
-  margin-top: 4px;
+    background:linear-gradient(
+180deg,
+#DCEEFF,
+#F3F8FF
+);
+
 }
 
 /* ── Dashboard cards ── */
@@ -421,24 +408,13 @@ body {
 .busca:focus { border-color: var(--brand); }
 
 /* ── Forms ── */
-.form-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-}
 
-.form-card h3 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 18px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
+
+.form-card{
+    background:#fff;
+    border-radius:16px;
+    padding:24px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
 .form {
@@ -1368,4 +1344,191 @@ tbody tr:hover { background: var(--surface-2); }
   .land-hero-right { width: 100%; }
   .land-mascot { width: 240px; }
   .land-mascot-bubble { right: 0; font-size: 0.75rem; }
+}
+.bill-header{
+
+    display:flex;
+    align-items:center;
+    gap:22px;
+
+    padding:25px 35px;
+
+    background:linear-gradient(135deg,#2563EB,#4F8EF7);
+
+    border-radius:20px;
+
+    min-height:120px;
+
+}
+
+.bill-avatar{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:white;
+
+    padding:8px;
+
+    object-fit:cover;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.20);
+
+}
+
+.bill-header h1{
+
+    margin:0;
+
+    font-size:40px;
+
+    font-weight:700;
+
+    color:#FFFFFF;
+
+}
+
+.bill-header p{
+
+    margin-top:8px;
+
+    font-size:18px;
+
+    color:rgba(255,255,255,.90);
+
+}
+.msg-bill{
+
+display:flex;
+
+gap:15px;
+
+margin-bottom:25px;
+
+align-items:flex-start;
+
+}
+
+.msg-user{
+
+display:flex;
+
+justify-content:flex-end;
+
+margin-bottom:25px;
+
+}
+
+.msg-avatar{
+
+width:42px;
+
+height:42px;
+
+border-radius:50%;
+
+}
+
+.msg-box{
+
+    background:#F7FBFF;
+
+    border-left:4px solid #2563EB;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+
+}
+
+.msg-user .msg-box{
+
+background:#2563EB;
+
+color:white;
+
+}
+
+.msg-user strong{
+
+display:block;
+
+margin-bottom:8px;
+
+}
+
+.msg-bill strong{
+
+display:block;
+
+color:#2563EB;
+
+margin-bottom:8px;
+
+}
+
+.msg-box p{
+
+margin:0;
+
+line-height:1.7;
+
+white-space:pre-wrap;
+
+}
+
+.chat-input textarea{
+
+background:white;
+
+border:2px solid #D6E6FF;
+
+box-shadow:0 6px 20px rgba(37,99,235,.08);
+
+}
+
+.chat-input textarea{
+
+flex:1;
+
+resize:none;
+
+padding:18px;
+
+border-radius:15px;
+
+border:1px solid #CBD5E1;
+
+font-size:15px;
+
+}
+
+.chat-input button{
+
+width:150px;
+
+border:none;
+
+background:#2563EB;
+
+color:white;
+
+font-size:17px;
+
+border-radius:15px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.chat-input button:hover{
+
+background:#1D4ED8;
+
 }

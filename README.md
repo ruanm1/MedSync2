@@ -69,7 +69,7 @@ O servidor serve o frontend e a API no mesmo endereço.
 | POST   | /prontuarios     | Criar prontuário            |
 | PUT    | /prontuarios/:id | Editar prontuário           |
 | DELETE | /prontuarios/:id | Remover prontuário          |
-| POST   | /ia              | Consultar assistente Sr. Bill |
+| POST   | /ia              | Consultar assistente DR. Bill |
 
 ## Tecnologias
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-
 // LISTAR
 router.get("/", (req, res) => {
     db.query("SELECT * FROM pacientes ORDER BY nome", (erro, resultado) => {
@@ -9,7 +8,6 @@ router.get("/", (req, res) => {
         res.json(resultado);
     });
 });
-
 // CADASTRAR
 router.post("/", (req, res) => {
     const { nome, cpf, nascimento, telefone, convenio } = req.body;
@@ -22,7 +20,6 @@ router.post("/", (req, res) => {
         }
     );
 });
-
 // EDITAR
 router.put("/:id", (req, res) => {
     const { nome, cpf, nascimento, telefone, convenio } = req.body;
@@ -35,7 +32,6 @@ router.put("/:id", (req, res) => {
         }
     );
 });
-
 // EXCLUIR
 router.delete("/:id", (req, res) => {
     db.query("DELETE FROM pacientes WHERE id=?", [req.params.id], (erro) => {

@@ -38,9 +38,9 @@ CREATE TABLE pacientes (
 CREATE TABLE consultas (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
-    paciente_id INT,
+    paciente_id INT NOT NULL,
 
-    medico_id INT,
+    medico_id INT NOT NULL,
 
     data DATE NOT NULL,
 
@@ -468,56 +468,4 @@ FROM consultas
 WHERE medico_id=1
 AND status='AGENDADA';
 
-INSERT INTO medicos
-(nome, crm, especialidade, telefone, email, dias, horario_inicio, horario_fim)
-VALUES
-('Carlos Henrique', 'CRM12345', 'Clínico Geral', '(83)99999-1111', 'carlos@medsync.com', 'Segunda,Quarta,Sexta', '08:00:00', '17:00:00'),
 
-('Fernanda Lima', 'CRM23456', 'Cardiologia', '(83)99999-2222', 'fernanda@medsync.com', 'Terça,Quinta', '09:00:00', '18:00:00'),
-
-('João Pedro', 'CRM34567', 'Pediatria', '(83)99999-3333', 'joao@medsync.com', 'Segunda a Sexta', '07:30:00', '16:30:00');
-
-INSERT INTO pacientes
-(nome, cpf, nascimento, telefone, convenio)
-VALUES
-('Ana Souza', '111.111.111-11', '1998-04-12', '(83)98888-1111', 'Unimed'),
-
-('Bruno Silva', '222.222.222-22', '1993-10-20', '(83)98888-2222', 'Hapvida'),
-
-('Camila Oliveira', '333.333.333-33', '2000-01-15', '(83)98888-3333', 'Particular'),
-
-('Diego Santos', '444.444.444-44', '1987-08-03', '(83)98888-4444', 'Unimed'),
-
-('Eduarda Lima', '555.555.555-55', '1995-12-09', '(83)98888-5555', 'SulAmérica'),
-
-('Felipe Costa', '666.666.666-66', '2002-05-18', '(83)98888-6666', 'Particular');
-
-INSERT INTO consultas
-(paciente_id, medico_id, data, horario, tipo, status)
-VALUES
-(1,1,'2026-07-05','08:30:00','Presencial','AGENDADA'),
-
-(2,2,'2026-07-05','09:30:00','Online','REALIZADA'),
-
-(3,3,'2026-07-06','10:00:00','Presencial','AGENDADA'),
-
-(4,1,'2026-07-06','11:30:00','Retorno','CANCELADA'),
-
-(5,2,'2026-07-07','14:00:00','Presencial','AGENDADA'),
-
-(6,3,'2026-07-08','15:30:00','Online','REALIZADA');
-
-INSERT INTO prontuarios
-(consulta_id, queixa, diagnostico, prescricao, observacoes)
-VALUES
-(2,
-'Dor no peito',
-'Hipertensão',
-'Losartana 50mg',
-'Retorno em 30 dias'),
-
-(6,
-'Febre e dor de garganta',
-'Infecção viral',
-'Paracetamol 750mg',
-'Repouso e hidratação');

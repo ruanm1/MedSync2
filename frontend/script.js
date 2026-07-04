@@ -212,12 +212,12 @@ function AgendarConsulta({
       setToast("Preencha todos os campos.");
       return;
     }
+const hoje = new Date().toISOString().split("T")[0];
 
-const data = c.data.substring(0,10).split("-").reverse().join("/");
-    if (form.data < hoje) {
-      setToast("Selecione uma data válida.");
-      return;
-    }
+if (form.data < hoje) {
+    setToast("Selecione uma data válida.");
+    return;
+}
 
     setToast("Consulta agendada com sucesso!");
     setConsultas([
@@ -616,7 +616,7 @@ function AssistenteIA() {
     }
   ]);
 
- async function enviar() {
+async function enviar() {
     if (mensagem.trim() === "") return;
 
     const pergunta = mensagem;
@@ -634,56 +634,60 @@ function AssistenteIA() {
     try {
 
         const res = await fetch("http://localhost:3000/ia", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ pergunta })
-});
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ pergunta })
+        });
 
-alert("Status: " + res.status);
+        const dados = await res.json();
 
-const dados = await res.json();
-
-alert(JSON.stringify(dados));
-
-        console.log("RESPOSTA:", dados);
+        console.log(dados);
 
         setChat(c => [
             ...c,
             {
-                autor: "Sr. Bill 🐃",
+                autor: "Dr. Bill",
                 texto: dados.resposta
             }
         ]);
 
     } catch (erro) {
 
-        console.error("ERRO:", erro);
+        console.error(erro);
 
         setChat(c => [
             ...c,
             {
-                autor: "Sr. Bill 🐃",
-                texto: "Não foi possível responder no momento."
+                autor: "Dr. Bill ",
+                texto: "Erro ao consultar a IA."
             }
         ]);
 
     }
-
 }
 
   return(
 
     <div>
 
-      <div className="page-header">
+      <div className="bill-header">
 
-        <h1>Assistente IA</h1>
+    <img
+        src="BUFALLO_BIL.png"
+        className="bill-avatar"
+    />
 
-        <p>Tire dúvidas enquanto aguarda seu atendimento.</p>
+    <div>
 
-      </div>
+        <h1>Dr. Bill </h1>
+
+        <p>Assistente virtual de saúde do MedSync</p>
+
+    </div>
+
+</div>
 
       <div className="form-card">
 
@@ -698,44 +702,64 @@ alert(JSON.stringify(dados));
           }}
         >
 
-          {chat.map((m,i)=>(
+          {chat.map((m, i) => (
 
-            <div
-              key={i}
-              style={{
-                marginBottom:"15px"
-              }}
-            >
+<div
+    key={i}
+    className={
+        m.autor === "Você"
+            ? "msg-user"
+            : "msg-bill"
+    }
+>
 
-              <strong>{m.autor}</strong>
+    {
 
-              <p>{m.texto}</p>
+        m.autor !== "Você" &&
 
-            </div>
+        <img
+            src="BUFALLO_BIL.png"
+            className="msg-avatar"
+        />
 
-          ))}
+    }
+
+    <div className="msg-box">
+
+        <strong>
+
+            {m.autor}
+
+        </strong>
+
+        <p>
+
+            {m.texto}
+
+        </p>
+
+    </div>
+
+</div>
+
+))}
 
         </div>
 
-        <textarea
+<div className="chat-input">
 
-          rows="4"
+    <textarea
+        rows="3"
+        placeholder="Digite sua dúvida..."
+        value={mensagem}
+        onChange={e => setMensagem(e.target.value)}
+    />
 
-          placeholder="Digite sua dúvida..."
+    <button onClick={enviar}>
+        ➤ Enviar
+    </button>
 
-          value={mensagem}
-
-          onChange={e=>setMensagem(e.target.value)}
-
-        />
-
-        <br/>
-
-        <button onClick={enviar}>
-
-          Enviar
-
-        </button>
+</div>
 
       </div>
 

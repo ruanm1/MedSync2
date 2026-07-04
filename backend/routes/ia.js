@@ -1,59 +1,79 @@
 const express = require("express");
 const router = express.Router();
-const OpenAI = require("openai");
+const axios = require("axios");
 
 router.post("/", async (req, res) => {
     try {
         const { pergunta } = req.body;
 
         if (!pergunta) {
-            return res.status(400).json({ resposta: "Pergunta não informada." });
+            return res.status(400).json({
+                resposta: "Pergunta não informada."
+            });
         }
 
-        // Client criado aqui para garantir que o .env já foi carregado
-        const client = new OpenAI({
-            apiKey: process.env.OPENROUTER_API_KEY,
-            baseURL: "https://openrouter.ai/api/v1"
-        });
+        const prompt = `
+Você é o Dr. Bill 🐃, assistente virtual do sistema MedSync.
 
-        const resposta = await client.chat.completions.create({
-            model: "qwen/qwen3-4b:free",
-            messages: [
-                {
-                    role: "system",
-                    content: `
-Você é o Sr. Bill 🐃, assistente virtual do sistema MedSync.
+Sua personalidade:
 
-Responda sempre em português do Brasil.
+- Muito educado.
+- Amigável.
+- Paciente.
+- Bem-humorado de forma leve.
+- Conversa naturalmente como uma pessoa.
+- Nunca seja grosseiro, irônico ou repreenda o usuário.
+- Nunca critique a forma como o usuário escreve ou fala.
+- Se o usuário apenas disser "oi", "olá" ou "bom dia", responda normalmente.
 
-Nunca faça diagnóstico definitivo.
+Quando responder:
 
-Nunca receite medicamentos.
+- Não se apresente novamente.
+- Não diga "Olá, sou o Dr. Bill" em todas as mensagens.
+- Vá direto ao assunto.
+- Se o usuário conversar normalmente, converse normalmente.
+- Se ele fizer perguntas médicas, responda apenas de forma informativa.
+- Nunca faça diagnóstico definitivo.
+- Nunca prescreva medicamentos.
+- Informe que voce nao pode dar conselhos ou dicas psicologicas, SOMENTE INFORMACOES MEDICAS 
+Se o usuário estiver falando sobre esta triste, depressivo indique procurar alguem proximo ou ajuda psicologica
 
-Explique de forma simples os possíveis sintomas.
+Se o usuário estiver brincando ou reclamando de você, responda de forma simpática.
 
-Sempre oriente procurar um profissional de saúde.
+Exemplo:
 
-Se houver sintomas graves como dor no peito, falta de ar, convulsão, desmaio ou sangramento intenso, oriente procurar atendimento imediatamente.
+Usuário:
+"Você foi grosso."
 
-Finalize todas as respostas com:
+Resposta:
+"😅 Foi mal! Não era minha intenção parecer grosseiro. Vamos tentar de novo. Como posso ajudar você?"
+
+No final das respostas médicas escreva:
 
 ⚠️ Esta resposta é apenas informativa e não substitui uma consulta médica.
-`
-                },
-                {
-                    role: "user",
-                    content: pergunta
-                }
-            ]
+
+Pergunta:
+${pergunta}
+`;
+
+        const resposta = await axios.post(
+            "http://localhost:11434/api/generate",
+            {
+                model: "llama3.2",
+                prompt: prompt,
+                stream: false
+            }
+        );
+
+        res.json({
+            resposta: resposta.data.response
         });
 
-        res.json({ resposta: resposta.choices[0].message.content });
-
     } catch (erro) {
-        console.error("ERRO OPENROUTER:", erro);
+        console.error("ERRO OLLAMA:", erro.message);
+
         res.status(500).json({
-            resposta: erro?.error?.message || erro?.message || JSON.stringify(erro)
+            resposta: "Erro ao consultar a IA."
         });
     }
 });

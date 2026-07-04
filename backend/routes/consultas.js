@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// LISTAR
+
 router.get("/", (req, res) => {
     db.query(
         `SELECT
@@ -37,64 +37,25 @@ router.post("/", (req, res) => {
     );
 });
 
-/// EDITAR / CANCELAR CONSULTA
+// EDITAR
 router.put("/:id", (req, res) => {
-
-    // Se veio só o status, faz apenas o cancelamento
-    if (Object.keys(req.body).length === 1 && req.body.status) {
-
-        db.query(
-            "UPDATE consultas SET status=? WHERE id=?",
-            [req.body.status, req.params.id],
-            (erro) => {
-
-                if (erro) return res.status(500).json(erro);
-
-                res.json({ mensagem: "Consulta cancelada!" });
-
-            }
-        );
-
-        return;
-    }
-
-    // Atualização completa
-    const {
-        paciente_id,
-        medico_id,
-        data,
-        horario,
-        tipo,
-        status
-    } = req.body;
-
+    const { paciente_id, medico_id, data, horario, tipo, status } = req.body;
     db.query(
-        `UPDATE consultas
-         SET paciente_id=?,
-             medico_id=?,
-             data=?,
-             horario=?,
-             tipo=?,
-             status=?
-         WHERE id=?`,
-        [
-            paciente_id,
-            medico_id,
-            data,
-            horario,
-            tipo,
-            status,
-            req.params.id
-        ],
+        `UPDATE consultas SET paciente_id=?,medico_id=?,data=?,horario=?,tipo=?,status=? WHERE id=?`,
+        [paciente_id, medico_id, data, horario, tipo, status, req.params.id],
         (erro) => {
-
             if (erro) return res.status(500).json(erro);
-
             res.json({ mensagem: "Consulta atualizada!" });
-
         }
     );
+});
 
+// EXCLUIR
+router.delete("/:id", (req, res) => {
+    db.query("DELETE FROM consultas WHERE id=?", [req.params.id], (erro) => {
+        if (erro) return res.status(500).json(erro);
+        res.json({ mensagem: "Consulta removida!" });
+    });
 });
 
 module.exports = router;
